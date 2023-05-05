@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			var Solution = function (capacity) {
+				this.capacity = capacity;
+				this.map = new Map();
+			};
+
+			Solution.prototype.get = function (key) {
+				if (!this.map.has(key)) {
+					return -1;
+				}
+				const value = this.map.get(key);
+				this.map.delete(key);
+				this.map.set(key, value);
+				return value;
+			};
+
+			Solution.prototype.set = function (key, value) {
+				this.map.set(key, value);
+				if (this.map.size > this.capacity) {
+					let deleteKey = this.map.keys().next().value;
+					this.map.delete(deleteKey);
+				}
+			};
+		</script>
+	</body>
+</html>

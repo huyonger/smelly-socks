@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			let obj = {
+				name: "huyong",
+				age: 18,
+			};
+			let objProxy = new Proxy(obj, {
+				set: function (target, key, newValue, proxy) {
+					console.log(`监听到${key}属性的设置值:`, newValue);
+					target[key] = newValue;
+				},
+				get: function (target, key, proxy) {
+					console.log(`监听到${key}属性的获取:`, target[key]);
+					return target[key];
+				},
+				deleteProperty: function (target, key) {
+					console.log(`监听到${key}属性的删除`);
+					delete target[key];
+				},
+				has: function (target, key) {
+					return key in target;
+				},
+			});
+			console.log(objProxy["name"]);
+			objProxy["name"] = "mayuying";
+			console.log(objProxy["name"]);
+		</script>
+	</body>
+</html>

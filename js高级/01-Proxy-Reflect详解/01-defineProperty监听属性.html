@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		console.log(obj["name"]);
+		<script>
+			// 1.监听某一个属性
+			// let obj = {
+			// 	name: "huyong",
+			// };
+			// let _name = obj.name;
+			// Object.defineProperty(obj, "name", {
+			// 	set: function (newValue) {
+			// 		console.log("监听:给name设置了新值:", newValue);
+			// 		_name = newValue;
+			// 	},
+			// 	get: function () {
+			// 		console.log("监听:获取了name的值");
+			// 		return _name;
+			// 	},
+			// });
+			// console.log(obj.name);
+			// obj.name = "mayuying";
+			// console.log(obj.name);
+			// 2.监听所有属性
+			let obj = {
+				name: "huyong",
+				age: 18,
+			};
+			for (let key of Object.keys(obj)) {
+				let tmp = obj[key];
+				Object.defineProperty(obj, key, {
+					set: function (newValue) {
+						console.log(`监听:给${key}设置了新值:`, newValue);
+						tmp = newValue;
+					},
+					get: function () {
+						console.log(`监听:获取了${key}的值`);
+						return tmp;
+					},
+				});
+			}
+			console.log(obj["name"]);
+			obj["name"] = "mayuying";
+			console.log(obj["name"]);
+		</script>
+	</body>
+</html>

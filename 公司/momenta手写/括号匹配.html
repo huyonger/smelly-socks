@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			function isValid(s) {
+				let stack = [];
+				let map = { "}": "{", "]": "[", ")": "(" };
+				let keys = new Set(["{", "[", "(", "}", "]", ")"]);
+				for (let i = 0; i < s.length; i++) {
+					if (keys.has(s[i])) {
+						if (s[i] === "(" || s[i] === "[" || s[i] === "{") {
+							stack.push(s[i]);
+						} else {
+							let tmp = map[s[i]];
+							if (tmp !== stack.pop()) {
+								return false;
+							}
+						}
+					}
+				}
+				return true;
+			}
+			console.log(isValid("()]"));
+			console.log(isValid("sin(30)"));
+		</script>
+	</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			const PENDING = Symbol("pending");
+			const FULFILLED = Symbol("fulfilled");
+			const REJECTED = Symbol("rejected");
+			class Promise {
+				constructor(executors) {
+					// 默认状态
+					this.status = PENDING;
+					// 存放成功状态的值
+					this.res = undefined;
+					// 存放失败状态的值
+					this.err = undefined;
+					// 存放then函数中处理fulfilled的回调函数
+					this.onFulFilledCallBacks = [];
+					// 存放then函数中处理Rejected的回调函数
+					this.onRejectedCallBacks = [];
+
+					let resolve = (res) => {
+						if (this.status === PENDING) {
+							this.status = FULFILLED;
+							this.res = res;
+							this.onFulFilledCallBacks.forEach((fn) => fn());
+						}
+					};
+
+					let reject = (err) => {
+						if (this.status === PENDING) {
+							this.status = REJECTED;
+							this.err = err;
+							this.onRejectedCallBacks.forEach((fn) => fn());
+						}
+					};
+					// 立即执行executors
+					try {
+						executors(resolve, reject);
+					} catch (error) {
+						reject(error);
+					}
+				}
+
+				then(onFulFilledCallBack, onRejectedCallBack) {
+					// 如果状态已经改变为fulfilled，同步任务
+					if (this.status === FULFILLED) {
+						onFulFilledCallBack(this.res);
+					}
+					// 如果状态已经改变为Rejected，同步任务
+					if (this.status === REJECTED) {
+						onRejectedCallBack(this.err);
+					}
+					// 状态还没改变，在异步任务的回调函数改变，因此需要保存对应的回调函数。
+					if (this.status === PENDING) {
+						this.onFulFilledCallBacks.push(() => onFulFilledCallBack(this.res));
+						this.onRejectedCallBacks.push(() => onRejectedCallBack(this.err));
+					}
+				}
+			}
+
+			// const promise = new Promise((resolve, reject) => {
+			// 	setTimeout(() => {
+			// 		resolve("成功");
+			// 	}, 1000);
+			// }).then(
+			// 	(res) => console.log(res),
+			// 	(err) => console.log(err)
+			// );
+			let promise = new Promise((resolve, _) => {
+				setTimeout(() => {
+					resolve("hello world");
+				}, 1000);
+			});
+			promise.then((res) => console.log(res));
+			promise.then((res) => console.log(res));
+		</script>
+	</body>
+</html>

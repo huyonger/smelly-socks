@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			/**
+			 * @param {number[]} nums
+			 * @return {number[]}
+			 */
+			var sortArray = function (nums) {
+				heapSort(nums);
+				return nums;
+			};
+
+			function heapSort(nums) {
+				// 建堆
+				let len = nums.length;
+				for (let i = Math.floor(len / 2); i >= 0; i--) {
+					maxHeapify(nums, i, len);
+				}
+				// 堆排序
+				for (let j = 0; j < len; j++) {
+					[nums[0], nums[len - j - 1]] = [nums[len - j - 1], nums[0]];
+					maxHeapify(nums, 0, len - j - 2);
+				}
+			}
+
+			function maxHeapify(nums, index, len) {
+				let i = 2 * index + 1,
+					j = 2 * index + 2,
+					maxIndex = index;
+				if (i < len && nums[i] > nums[maxIndex]) {
+					maxIndex = i;
+				}
+
+				if (j < len && nums[j] > nums[maxIndex]) {
+					maxIndex = j;
+				}
+
+				if (maxIndex !== index) {
+					[nums[maxIndex], nums[index]] = [nums[index], nums[maxIndex]];
+					maxHeapify(nums, maxIndex, len);
+				}
+			}
+		</script>
+	</body>
+</html>

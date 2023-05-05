@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			function quickSort(nums) {
+				if (nums.length === 1) return nums;
+				quickSortHelp(nums, 0, nums.length - 1);
+			}
+
+			function quickSortHelp(nums, left, right) {
+				if (left < right) {
+					let boundary = partition(nums, left, right);
+					quickSortHelp(nums, left, boundary - 1);
+					quickSortHelp(nums, boundary + 1, right);
+				}
+			}
+
+			function partition(nums, left, right) {
+				let indexValue = nums[right];
+				let i = left,
+					j = right;
+				while (i < j) {
+					while (i < j && nums[i] <= indexValue) {
+						i++;
+					}
+					while (i < j && nums[j] >= indexValue) {
+						j--;
+					}
+					if (i < j) {
+						[nums[i], nums[j]] = [nums[j], nums[i]];
+					}
+				}
+				[nums[right], nums[j]] = [nums[j], nums[right]];
+				return j;
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			function deepClone(obj, map = new Map()) {
+				if (typeof obj !== "object" || obj === null) {
+					return obj;
+				}
+				const target = Array.isArray(obj) ? [] : {};
+				if (map.get(obj)) {
+					return map.get(obj);
+				}
+				map.set(obj, target);
+				for (const key in obj) {
+					if (Object.prototype.hasOwnProperty.call(obj, key)) {
+						if (typeof obj[key] === "object") {
+							target[key] = deepClone(obj[key], map);
+						} else if (typeof obj[key] === "function") {
+							target[key] = new Function("return " + obj[key].toString())();
+							map.set(obj[key], target[key]);
+						} else {
+							target[key] = obj[key];
+						}
+					}
+				}
+				return target;
+			}
+			var a = {
+				run: function () {},
+			};
+			a.A = a;
+			var b = deepClone(a);
+		</script>
+	</body>
+</html>

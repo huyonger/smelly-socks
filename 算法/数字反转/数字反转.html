@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			function reverseNumber1(num) {
+				let res = 0;
+				let sign = num >= 0 ? 1 : -1;
+				num = Math.abs(num);
+				while (num != 0) {
+					res = res * 10 + (num % 10);
+					num = Math.floor(num / 10);
+				}
+				return res * sign;
+			}
+
+			function reverseNumber2(num) {
+				if (num < 0) {
+					return Number.parseInt(String(num).slice(1).split("").reverse().join("")) * -1;
+				} else {
+					return Number.parseInt(String(num).split("").reverse().join("")) * 1;
+				}
+			}
+			console.log(reverseNumber1(-345));
+		</script>
+	</body>
+</html>

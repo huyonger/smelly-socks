@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			Promise.prototype.all = function (promiseArray) {
+				return new Promise((resolve, reject) => {
+					let resArray = [];
+					let count = 0;
+					for (let promise of promiseArray) {
+						// 当promiseArray对象全为promise的时候;但是promiseArray对象可能为其他值；使用下面写法，因为resolve中可以接受其他类型和promise
+						// promise
+						// 	.then((res) => {
+						// 		resArray.push(res);
+						// 		count++;
+						// 		if (count === resArray.length) {
+						// 			resolve(resArray);
+						// 		}
+						// 	})
+						// 	.catch((err) => {
+						// 		reject(err);
+						// 	});
+						Promise.resolve(promise)
+							.then((res) => {
+								resArray.push(res);
+								count++;
+								if (count === resArray.length) {
+									resolve(resArray);
+								}
+							})
+							.catch((err) => {
+								reject(err);
+							});
+					}
+				});
+			};
+			let promise1 = Promise.resolve("promise1");
+			let promise2 = new Promise((resolve, _) => {
+				setTimeout(() => {
+					_("promise2");
+				}, 1000);
+			});
+			let promise3 = new Promise((resolve, _) => {
+				setTimeout(() => {
+					resolve("promise3");
+				}, 5000);
+			});
+			Promise.all([promise1, promise2, promise3])
+				.then((res) => console.log(res))
+				.catch((err) => console.log(err));
+		</script>
+	</body>
+</html>

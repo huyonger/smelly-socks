@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			function mergeSort(nums) {
+				if (nums.length == 1) {
+					return nums;
+				}
+				_mergeSort(nums, 0, nums.length - 1);
+				return nums;
+			}
+
+			function _mergeSort(nums, left, right) {
+				if (left >= right) {
+					return;
+				}
+				let mid = left + Math.floor((right - left) / 2);
+				_mergeSort(nums, left, mid);
+				_mergeSort(nums, mid + 1, right);
+				merge(nums, left, mid, right);
+			}
+
+			function merge(nums, left, mid, right) {
+				let res = [];
+				let leftEnd = mid,
+					rightStart = mid + 1,
+					len = right - left + 1;
+				while (left <= leftEnd && rightStart <= right) {
+					if (nums[left] <= nums[rightStart]) {
+						res.push(nums[left]);
+						left++;
+					} else {
+						res.push(nums[rightStart]);
+						rightStart++;
+					}
+				}
+				if (left <= leftEnd) {
+					res = res.concat(nums.slice(left, leftEnd + 1));
+				}
+				if (rightStart <= right) {
+					res = res.concat(nums.slice(rightStart, right + 1));
+				}
+				for (let i = right, j = 0; j < len; i--, j++) {
+					nums[i] = res.pop();
+				}
+			}
+
+			console.log(mergeSort([-2, 3, -5]));
+		</script>
+	</body>
+</html>

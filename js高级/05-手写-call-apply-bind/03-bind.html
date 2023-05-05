@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			Function.prototype.call = function (obj, ...args) {
+				if (obj === undefined || obj === null) {
+					obj = window;
+				}
+				obj.tempFn = this;
+				let result = obj.tempFn(...args);
+				delete obj.tempFn;
+				return result;
+			};
+
+			Function.prototype.bind = function (obj, ...args1) {
+				const fn = (...args2) => {
+					return this.call(obj, ...args1, ...args2);
+				};
+				return fn;
+			};
+
+			let obj1 = {
+				name: "huyong",
+			};
+			let obj2 = {
+				name: "mayuying",
+			};
+			function sayName() {
+				console.log(this.name);
+				console.log(arguments);
+			}
+			let fn1 = sayName.bind(obj1, 1, 2, 3);
+			let fn2 = fn1.bind(obj2, 3, 4);
+			fn2();
+		</script>
+	</body>
+</html>

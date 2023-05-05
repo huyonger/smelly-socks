@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			const list = [
+				{ id: 04, pid: 03 },
+				{ id: 01, pid: null },
+				{ id: 02, pid: null },
+				{ id: 03, pid: 01 },
+				{ id: 05, pid: 01 },
+				{ id: 06, pid: 03 },
+				{ id: 07, pid: 02 },
+				{ id: 09, pid: 02 },
+				{ id: 10, pid: 07 },
+			];
+			function toTree(list) {
+				let map = {};
+				let result = [];
+				list.forEach((item) => {
+					map[item.id] = item;
+				});
+				list.forEach((item) => {
+					let parent = map[item.pid];
+					if (parent) {
+						parent.children = parent.children || [];
+						parent.children.push(item);
+					} else {
+						result.push(item);
+					}
+				});
+				return result;
+			}
+			console.log(toTree(list));
+		</script>
+	</body>
+</html>

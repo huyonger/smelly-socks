@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			const delay = function delay(interval) {
+				return new Promise((resolve, reject) => {
+					setTimeout(() => {
+						resolve(interval);
+					}, interval);
+				});
+			};
+
+			const delayErr = function delay(interval) {
+				return new Promise((resolve, reject) => {
+					setTimeout(() => {
+						reject(interval);
+					}, interval);
+				});
+			};
+
+			let tasks = [
+				() => {
+					return delay(1000);
+				},
+				() => {
+					return delayErr(1003);
+				},
+				() => {
+					return delay(1005);
+				},
+				() => {
+					return delay(1002);
+				},
+				() => {
+					return delay(1004);
+				},
+				() => {
+					return delay(1006);
+				},
+			];
+
+			function createRequest(tasks, pool) {
+				pool = pool || 5;
+				let results = [];
+				let together = new Array(pool).fill(null);
+				let index = 0;
+				together = together.map((item, i) => {
+					return new Promise((resolve, reject) => {
+						const run = function run() {
+							if (index >= tasks.length) {
+								resolve();
+								return;
+							}
+							console.log(`第${i}个pool 第${index}task`);
+							let old_index = index;
+							// 从任务池拿任务，由于index是升级作用域的变量，所以多个Promise共享一个index
+							//这样可以让一个数组里面的任务一次执行
+							let task = tasks[index++];
+							task()
+								.then((result) => {
+									// 将返回的结果放置在results里面，实现请求数据的集中存储。
+									results[old_index] = {
+										status: "fulfilled",
+										value: result,
+									};
+									// 只有在上一个任务执行成功后才会执行一个异步任务
+									run();
+								})
+								.catch((reason) => {
+									results[old_index] = {
+										status: "rejected",
+										reason: reason,
+									};
+									run();
+								});
+						};
+						run();
+					});
+				});
+				// 多个promise同时处理，根据pool来限制同一时刻并发请求的个数
+				return Promise.all(together).then(() => results);
+			}
+		</script>
+	</body>
+</html>

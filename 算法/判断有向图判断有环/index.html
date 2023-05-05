@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			var graph = [
+				{ src: "g", dst: "e" },
+				{ src: "a", dst: "b" },
+				{ src: "f", dst: "g" },
+				{ src: "e", dst: "f" },
+				{ src: "c", dst: "d" },
+				{ src: "b", dst: "c" },
+			];
+
+			function f() {
+				const map = {};
+				graph.forEach((val) => (map[val.src] = val.dst));
+				const line = [];
+				let count = 0;
+				let node = map[Object.keys(map)[0]];
+				while (count < graph.length) {
+					if (line.includes(node)) {
+						return line.slice(line.findIndex((val) => val === node));
+					}
+					line.push(node);
+					node = map[node];
+					count++;
+				}
+				return null;
+			}
+
+			console.log(f());
+		</script>
+	</body>
+</html>

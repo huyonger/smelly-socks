@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<div id="container">
+			<div>
+				<div></div>
+			</div>
+			<table>
+				<tr>
+					<th></th>
+				</tr>
+				<tr>
+					<td></td>
+				</tr>
+			</table>
+		</div>
+		<script>
+			let container = document.getElementById("container");
+
+			function getAllChildrenTagName(root) {
+				let result = [];
+				let queue = [root];
+				let subQueue = [];
+				let subRes = [];
+				while (queue.length) {
+					let node = queue.shift();
+					subRes.push(node.tagName);
+					for (let child of node.children) {
+						subQueue.push(child);
+					}
+					if (queue.length === 0) {
+						result = result.concat(subRes);
+						subRes = [];
+						queue = subQueue;
+						subQueue = [];
+					}
+				}
+				console.log(result);
+			}
+			getAllChildrenTagName(container);
+		</script>
+	</body>
+</html>

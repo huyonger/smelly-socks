@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<style>
+			#container {
+				display: flex;
+				width: 100%;
+				height: 200px;
+			}
+			#container > div {
+				flex: 1;
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="container"></div>
+		<script>
+			function arrSortAnimation(arr) {
+				// 1.创建排序元素
+				let container = document.getElementById("container");
+				let elements = [];
+				arr.forEach((item) => {
+					const divElement = document.createElement("div");
+					elements.push(divElement);
+					divElement.innerText = item;
+					container.appendChild(divElement);
+				});
+				// 2.记录交换的index
+				let task = [];
+				let bubbleSort = function (arr) {
+					let len = arr.length;
+					for (let i = 0; i < len; i++) {
+						let isSwap = false;
+						for (let j = 0; j < len - i - 1; j++) {
+							if (arr[j] > arr[j + 1]) {
+								task.push({ left: j, right: j + 1 });
+								[arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+								isSwap = true;
+							}
+						}
+						if (isSwap === false) {
+							break;
+						}
+					}
+					return arr;
+				};
+
+				bubbleSort(arr);
+
+				// 3.将交换反映到真实dom
+				task.forEach((item, index) => {
+					setTimeout(() => {
+						let temp = elements[item.left].innerText;
+						elements[item.left].innerText = elements[item.right].innerText;
+						elements[item.right].innerText = temp;
+					}, index * 1000);
+				});
+			}
+			arrSortAnimation([3, 1, 2, 8, 6, 12, 5, 7]);
+		</script>
+	</body>
+</html>

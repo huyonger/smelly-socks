@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			const list = [
+				{ id: 04, pid: 03 },
+				{ id: 01, pid: null },
+				{ id: 02, pid: null },
+				{ id: 03, pid: 01 },
+				{ id: 05, pid: 01 },
+				{ id: 06, pid: 03 },
+				{ id: 07, pid: 02 },
+				{ id: 09, pid: 02 },
+				{ id: 10, pid: 07 },
+			];
+			function toTree(data) {
+				let result = [];
+				let obj = {};
+				data.forEach((item) => {
+					obj[item.id] = Object.assign(item, obj[item.id] || {});
+					if (item.pid) {
+						let parent = obj[item.pid] || {};
+						parent.child = parent.child || [];
+						parent.child.push(item);
+						obj[item.pid] = parent;
+					} else {
+						result.push(obj[item.id]);
+					}
+				});
+				return result;
+			}
+			console.log(toTree(list));
+		</script>
+	</body>
+</html>

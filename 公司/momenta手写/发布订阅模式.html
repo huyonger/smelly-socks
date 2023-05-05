@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			function EventBus() {
+				this.tasks = [];
+			}
+			EventBus.prototype.on = function (event, callback) {
+				this.tasks[event] = this.tasks[event] || [];
+				this.tasks[event].push(callback);
+			};
+
+			EventBus.prototype.off = function (event, callback) {
+				if (!this.tasks[event]) {
+					return;
+				}
+				this.tasks.filter((task) => task !== callback);
+			};
+
+			EventBus.prototype.once = function (event, callback) {
+				this.tasks[event] = this.tasks[event] || [];
+				const callbackOnce = (...args) => {
+					callback(...args);
+					this.off(event, callbackOnce);
+				};
+				this.tasks[event].push(callbackOnce);
+			};
+
+			EventBus.prototype.emit = function (event, ...args) {
+				if (!this.tasks[event]) {
+					return;
+				}
+				this.tasks[event] = this.tasks[event].forEach((task) => task(...args));
+			};
+
+			function sayHello(...message) {
+				console.log(message);
+			}
+
+			function sayGoodBye(...message) {
+				console.log(message);
+			}
+
+			let eventBus = new EventBus();
+			eventBus.on("sayHello", sayHello);
+			eventBus.emit("sayHello", "Hello", "JavaScript");
+			eventBus.off("sayHello", sayHello);
+			eventBus.emit("sayHello", "Hello", "JavaScript");
+
+			eventBus.once("sayGoodBye", sayGoodBye);
+			eventBus.emit("sayGoodBye", "GoodBye", "JavaScript");
+			eventBus.emit("sayGoodBye", "GoodBye", "JavaScript");
+		</script>
+	</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<style>
+			body {
+				margin: 0;
+				padding: 0;
+			}
+			.header,
+			.footer {
+				background-color: aqua;
+				height: 200px;
+			}
+			.container {
+				/* 创建BFC 清除浮动 */
+				overflow: hidden;
+				padding: 0 220px 0 200px;
+			}
+			.left,
+			.right,
+			.middle {
+				float: left;
+				min-height: 120px;
+				position: relative;
+			}
+
+			.left {
+				width: 200px;
+				background-color: rebeccapurple;
+				margin-left: -100%;
+				left: -200px;
+			}
+			.right {
+				width: 220px;
+				background-color: black;
+				margin-left: -220px;
+				right: -220px;
+			}
+			.middle {
+				width: 100%;
+				background-color: bisque;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="header"></div>
+		<div class="container">
+			<div class="middle"></div>
+			<div class="left"></div>
+			<div class="right"></div>
+		</div>
+		<div class="footer"></div>
+	</body>
+</html>

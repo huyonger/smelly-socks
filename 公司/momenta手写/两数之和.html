@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			var twoSum = function (numbers, start, target) {
+				let left = start;
+				let right = numbers.length - 1;
+				let res = [];
+				while (left < right) {
+					let sum = numbers[left] + numbers[right];
+					let lValue = numbers[left];
+					let rValue = numbers[right];
+					if (sum < target) {
+						while (left < right && lValue === numbers[left]) left++;
+					} else if (sum > target) {
+						while (left < right && rValue === numbers[right]) right--;
+					} else {
+						res.push([lValue, rValue]);
+						while (left < right && numbers[left] === lValue) left++;
+						while (left < right && numbers[right] === rValue) right--;
+					}
+				}
+				return res;
+			};
+		</script>
+	</body>
+</html>

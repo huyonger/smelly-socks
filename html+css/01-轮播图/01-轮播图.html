@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<style>
+			.container {
+				position: relative;
+			}
+			.left,
+			.right {
+				position: absolute;
+				width: 20px;
+				height: 20px;
+				background-color: blue;
+			}
+
+			.left {
+				left: 0;
+				top: 50%;
+				transform: translateY(-50%);
+			}
+
+			.right {
+				right: 0;
+				top: 50%;
+				transform: translateY(-50%);
+			}
+		</style>
+	</head>
+	<body>
+		<div style="width: 100px; height: 100px; background-color: rebeccapurple" class="container">
+			<img style="width: 100%; height: 100%" />
+			<div class="left"></div>
+			<div class="right"></div>
+		</div>
+	</body>
+	<script>
+		let imgUrls = ["https://static.runoob.com/images/demo/demo1.jpg", "https://static.runoob.com/images/demo/demo2.jpg"];
+		// 设置定时播放
+		const swiperImg = document.querySelector("img");
+		swiperImg.setAttribute("src", imgUrls[0]);
+		let next = 1;
+		setInterval(() => {
+			swiperImg.setAttribute("src", imgUrls[next % imgUrls.length]);
+			next++;
+		}, 5000);
+		// 设置左右切换
+		const swiperLeftArrow = document.querySelector(".left");
+		const swiperRightArrow = document.querySelector(".right");
+		swiperLeftArrow.addEventListener("click", () => {
+			next--;
+			swiperImg.setAttribute("src", imgUrls[next % imgUrls.length]);
+		});
+		swiperRightArrow.addEventListener("click", () => {
+			next++;
+			swiperImg.setAttribute("src", imgUrls[next % imgUrls.length]);
+		});
+	</script>
+</html>

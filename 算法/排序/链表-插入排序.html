@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			/**
+			 * Definition for singly-linked list.
+			 * function ListNode(val, next) {
+			 *     this.val = (val===undefined ? 0 : val)
+			 *     this.next = (next===undefined ? null : next)
+			 * }
+			 */
+			/**
+			 * @param {ListNode} head
+			 * @return {ListNode}
+			 */
+			var insertionSortList = function (head) {
+				if (head === null || head.next === null) return head;
+				let preHead = new ListNode(-1, head);
+				(lastSorted = head), (cur = head.next);
+				while (cur) {
+					// 如果排序的数据大于等于排序的数组
+					if (lastSorted.val <= cur.val) {
+						lastSorted = lastSorted.next;
+						// 从头寻找插入的位置
+					} else {
+						let pre = preHead;
+						while (pre.next.val <= cur.val) {
+							pre = pre.next;
+						}
+						lastSorted.next = cur.next;
+						cur.next = pre.next;
+						pre.next = cur;
+					}
+					cur = lastSorted.next;
+				}
+				return preHead.next;
+			};
+		</script>
+	</body>
+</html>

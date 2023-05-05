@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<div id="container">
+			<div><a href="www.baidu.com"></a></div>
+			<table>
+				<tr>
+					<th></th>
+				</tr>
+				<tr>
+					<td></td>
+				</tr>
+			</table>
+		</div>
+		<script>
+			let parent = document.getElementById("container");
+			let res = [];
+			function traverse(dom) {
+				if (dom === null) return;
+				const children = dom.children;
+				for (let i = 0; i < children.length; i++) {
+					let child = children[i];
+					res.push(child.tagName);
+					traverse(child);
+				}
+			}
+			traverse(parent);
+			console.log(res);
+		</script>
+	</body>
+</html>

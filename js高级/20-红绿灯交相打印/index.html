@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			let time = null;
+			const red = () => {
+				const now = Date.now();
+				console.log("red", Math.floor((now - time) / 1000));
+				time = Date.now();
+			};
+			const yellow = () => {
+				const now = Date.now();
+				console.log("yellow", Math.floor((now - time) / 1000));
+				time = Date.now();
+			};
+			const green = () => {
+				const now = Date.now();
+				console.log("green", Math.floor((now - time) / 1000));
+				time = Date.now();
+			};
+
+			const light = (time, callback) => {
+				return new Promise((res, rej) => {
+					const timer = setTimeout(() => {
+						callback();
+						res(timer);
+					}, time);
+				});
+			};
+
+			const stepByStep = async () => {
+				const timer1 = await light(3000, red);
+				const timer2 = await light(1000, green);
+				const timer3 = await light(2000, yellow);
+				clearTimeout(timer1);
+				clearTimeout(timer2);
+				clearTimeout(timer3);
+				stepByStep();
+			};
+			stepByStep();
+		</script>
+	</body>
+</html>
